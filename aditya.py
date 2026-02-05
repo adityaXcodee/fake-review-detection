@@ -23,35 +23,28 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# HIDE STREAMLIT ICONS (GITHUB / SHARE / MENU)
+# HIDE STREAMLIT ICONS + WATERMARK CSS
 # -------------------------------------------------
 st.markdown("""
 <style>
 
-/* Hide Streamlit header icons */
+/* 🔒 Hide Streamlit header (GitHub / Share / Menu icons) */
 header {
     display: none;
 }
 
-/* Remove top space */
+/* Remove extra top space */
 .stApp {
     margin-top: -80px;
 }
 
-</style>
-""", unsafe_allow_html=True)
-
-# -------------------------------------------------
-# PREMIUM THEME (NON-BLACK)
-# -------------------------------------------------
-st.markdown("""
-<style>
+/* 🌙 BACKGROUND */
 body {
     background: linear-gradient(135deg, #0f172a, #020617);
     color: #ffffff;
 }
 
-/* CARD */
+/* 🧊 CARD STYLE */
 .card {
     background: rgba(255, 255, 255, 0.10);
     backdrop-filter: blur(14px);
@@ -60,7 +53,7 @@ body {
     box-shadow: 0 12px 32px rgba(0,0,0,0.45);
 }
 
-/* STATS */
+/* 📊 STATS */
 .stat {
     font-size: 40px;
     font-weight: 800;
@@ -72,14 +65,14 @@ body {
     color: #cbd5f5;
 }
 
-/* TEXT AREA */
+/* 📝 TEXT AREA */
 textarea {
     background-color: #1e293b !important;
     color: #ffffff !important;
     border-radius: 14px !important;
 }
 
-/* BUTTON */
+/* 🔘 BUTTON */
 .stButton > button {
     width: 100%;
     height: 52px;
@@ -94,9 +87,21 @@ textarea {
     background: linear-gradient(90deg, #1d4ed8, #4338ca);
 }
 
-/* PROGRESS BAR */
+/* 📈 PROGRESS BAR */
 .stProgress > div > div > div {
     background-color: #22c55e;
+}
+
+/* 👤 WATERMARK – BOTTOM LEFT */
+.footer {
+    position: fixed;
+    bottom: 10px;
+    left: 20px;
+    opacity: 0.45;
+    font-size: 14px;
+    color: #e5e7eb;
+    z-index: 999;
+    text-align: left;
 }
 
 </style>
@@ -151,18 +156,27 @@ st.caption("AI-powered Fake Review Detection Dashboard")
 st.write("")
 
 # -------------------------------------------------
-# STATS
+# STATS CARDS
 # -------------------------------------------------
 c1, c2, c3 = st.columns(3)
 
 with c1:
-    st.markdown("<div class='card'><div class='stat'>85%</div><div class='label'>Model Accuracy</div></div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div class='card'><div class='stat'>85%</div><div class='label'>Model Accuracy</div></div>",
+        unsafe_allow_html=True
+    )
 
 with c2:
-    st.markdown("<div class='card'><div class='stat'>5000</div><div class='label'>Reviews Trained</div></div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div class='card'><div class='stat'>5000</div><div class='label'>Reviews Trained</div></div>",
+        unsafe_allow_html=True
+    )
 
 with c3:
-    st.markdown("<div class='card'><div class='stat'>LIVE</div><div class='label'>Prediction Mode</div></div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div class='card'><div class='stat'>LIVE</div><div class='label'>Prediction Mode</div></div>",
+        unsafe_allow_html=True
+    )
 
 st.write("")
 
@@ -209,3 +223,11 @@ with right:
     st.write("• Probability-based detection")
     st.write("• Secure & Read-only data")
     st.markdown("</div>", unsafe_allow_html=True)
+
+# -------------------------------------------------
+# WATERMARK TEXT
+# -------------------------------------------------
+st.markdown(
+    "<div class='footer'>Developed by Aditya Kumar Gupta </div>",
+    unsafe_allow_html=True
+)
