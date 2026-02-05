@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 # -------------------------------------------------
-# NLTK FIX (VERY IMPORTANT FOR STREAMLIT CLOUD)
+# NLTK FIX (FOR STREAMLIT CLOUD)
 # -------------------------------------------------
 nltk.download('stopwords')
 
@@ -23,7 +23,26 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# PREMIUM CSS (NON-BLACK BACKGROUND)
+# HIDE STREAMLIT ICONS (GITHUB / SHARE / MENU)
+# -------------------------------------------------
+st.markdown("""
+<style>
+
+/* Hide Streamlit header icons */
+header {
+    display: none;
+}
+
+/* Remove top space */
+.stApp {
+    margin-top: -80px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# -------------------------------------------------
+# PREMIUM THEME (NON-BLACK)
 # -------------------------------------------------
 st.markdown("""
 <style>
@@ -32,7 +51,7 @@ body {
     color: #ffffff;
 }
 
-/* CARD STYLE */
+/* CARD */
 .card {
     background: rgba(255, 255, 255, 0.10);
     backdrop-filter: blur(14px);
@@ -80,20 +99,11 @@ textarea {
     background-color: #22c55e;
 }
 
-/* FOOTER WATERMARK */
-.footer {
-    position: fixed;
-    bottom: 10px;
-    right: 20px;
-    opacity: 0.4;
-    font-size: 14px;
-    color: #e5e7eb;
-}
 </style>
 """, unsafe_allow_html=True)
 
 # -------------------------------------------------
-# LOAD DATA (FAST & SAFE)
+# LOAD DATA
 # -------------------------------------------------
 @st.cache_data
 def load_data():
@@ -122,11 +132,7 @@ data['clean_review'] = data['text_'].apply(clean_text)
 X = data['clean_review']
 y = data['label']
 
-vectorizer = TfidfVectorizer(
-    max_features=2000,
-    ngram_range=(1, 2)
-)
-
+vectorizer = TfidfVectorizer(max_features=2000, ngram_range=(1, 2))
 X_vec = vectorizer.fit_transform(X)
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -139,38 +145,29 @@ model.fit(X_train, y_train)
 # -------------------------------------------------
 # HEADER
 # -------------------------------------------------
-st.markdown("## 👋 Good Evening, Aditya")
+st.markdown("## 👋 Welcome")
 st.caption("AI-powered Fake Review Detection Dashboard")
 
 st.write("")
 
 # -------------------------------------------------
-# STATS CARDS
+# STATS
 # -------------------------------------------------
 c1, c2, c3 = st.columns(3)
 
 with c1:
-    st.markdown(
-        "<div class='card'><div class='stat'>85%</div><div class='label'>Model Accuracy</div></div>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<div class='card'><div class='stat'>85%</div><div class='label'>Model Accuracy</div></div>", unsafe_allow_html=True)
 
 with c2:
-    st.markdown(
-        "<div class='card'><div class='stat'>5,000</div><div class='label'>Reviews Trained</div></div>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<div class='card'><div class='stat'>5000</div><div class='label'>Reviews Trained</div></div>", unsafe_allow_html=True)
 
 with c3:
-    st.markdown(
-        "<div class='card'><div class='stat'>Live</div><div class='label'>Prediction Mode</div></div>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<div class='card'><div class='stat'>LIVE</div><div class='label'>Prediction Mode</div></div>", unsafe_allow_html=True)
 
 st.write("")
 
 # -------------------------------------------------
-# MAIN SECTION
+# MAIN AREA
 # -------------------------------------------------
 left, right = st.columns([2, 1])
 
@@ -188,7 +185,7 @@ with left:
         if review.strip() == "":
             st.warning("Please paste a review first.")
         else:
-            with st.spinner("Analyzing review with AI..."):
+            with st.spinner("Analyzing with AI..."):
                 time.sleep(1)
 
             cleaned = clean_text(review)
@@ -200,7 +197,7 @@ with left:
             if fake_prob >= 0.60:
                 st.error(f"❌ Fake Review Detected (Confidence: {fake_prob:.2f})")
             else:
-                st.success(f"✅ Genuine Review (Confidence: {1-fake_prob:.2f})")
+                st.success(f"✅ Genuine Review (Confidence: {1 - fake_prob:.2f})")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -210,13 +207,5 @@ with right:
     st.write("• NLP + TF-IDF")
     st.write("• Logistic Regression")
     st.write("• Probability-based detection")
-    st.write("• Real-time analysis")
+    st.write("• Secure & Read-only data")
     st.markdown("</div>", unsafe_allow_html=True)
-
-# -------------------------------------------------
-# FOOTER
-# -------------------------------------------------
-st.markdown(
-    "<div class='footer'>Developed by Aditya Kumar Gupta </div>",
-    unsafe_allow_html=True
-)
