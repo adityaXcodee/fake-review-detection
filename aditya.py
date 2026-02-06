@@ -9,9 +9,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 # -------------------------------------------------
-# NLTK FIX (FOR STREAMLIT CLOUD)
+# NLTK FIX (STREAMLIT CLOUD)
 # -------------------------------------------------
-nltk.download('stopwords')
+nltk.download("stopwords")
 
 # -------------------------------------------------
 # PAGE CONFIG
@@ -23,56 +23,56 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# HIDE STREAMLIT ICONS + WATERMARK CSS
+# THEME-AWARE CSS (LIGHT + DARK)
 # -------------------------------------------------
 st.markdown("""
 <style>
 
-/* 🔒 Hide Streamlit header (GitHub / Share / Menu icons) */
+/* Use Streamlit theme variables */
+:root {
+    --bg: var(--background-color);
+    --text: var(--text-color);
+    --card: var(--secondary-background-color);
+}
+
+/* Hide Streamlit header icons */
 header {
     display: none;
 }
 
-/* Remove extra top space */
+/* Remove top spacing */
 .stApp {
     margin-top: -80px;
 }
 
-/* 🌙 BACKGROUND */
-body {
-    background: linear-gradient(135deg, #0f172a, #020617);
-    color: #ffffff;
-}
-
-/* 🧊 CARD STYLE */
+/* Cards */
 .card {
-    background: rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(14px);
+    background-color: var(--card);
     padding: 22px;
     border-radius: 18px;
-    box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
 }
 
-/* 📊 STATS */
+/* Stats */
 .stat {
     font-size: 40px;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text);
 }
 
 .label {
     font-size: 15px;
-    color: #cbd5f5;
+    color: rgba(120,120,120,0.9);
 }
 
-/* 📝 TEXT AREA */
+/* Textarea */
 textarea {
-    background-color: #1e293b !important;
-    color: #ffffff !important;
+    background-color: var(--card) !important;
+    color: var(--text) !important;
     border-radius: 14px !important;
 }
 
-/* 🔘 BUTTON */
+/* Button */
 .stButton > button {
     width: 100%;
     height: 52px;
@@ -83,25 +83,18 @@ textarea {
     border: none;
 }
 
-.stButton > button:hover {
-    background: linear-gradient(90deg, #1d4ed8, #4338ca);
-}
-
-/* 📈 PROGRESS BAR */
+/* Progress bar */
 .stProgress > div > div > div {
     background-color: #22c55e;
 }
 
-/* 👤 WATERMARK – BOTTOM LEFT */
+/* Watermark (bottom-left) */
 .footer {
     position: fixed;
     bottom: 10px;
     left: 20px;
     opacity: 0.45;
     font-size: 14px;
-    color: #e5e7eb;
-    z-index: 999;
-    text-align: left;
 }
 
 </style>
@@ -120,22 +113,22 @@ data = load_data()
 # -------------------------------------------------
 # TEXT CLEANING
 # -------------------------------------------------
-stop_words = set(stopwords.words('english'))
+stop_words = set(stopwords.words("english"))
 
 def clean_text(text):
     text = str(text).lower()
-    text = re.sub('[^a-zA-Z]', ' ', text)
+    text = re.sub("[^a-zA-Z]", " ", text)
     words = text.split()
     words = [w for w in words if w not in stop_words]
     return " ".join(words)
 
-data['clean_review'] = data['text_'].apply(clean_text)
+data["clean_review"] = data["text_"].apply(clean_text)
 
 # -------------------------------------------------
 # MODEL TRAINING
 # -------------------------------------------------
-X = data['clean_review']
-y = data['label']
+X = data["clean_review"]
+y = data["label"]
 
 vectorizer = TfidfVectorizer(max_features=2000, ngram_range=(1, 2))
 X_vec = vectorizer.fit_transform(X)
@@ -152,11 +145,10 @@ model.fit(X_train, y_train)
 # -------------------------------------------------
 st.markdown("## 👋 Welcome")
 st.caption("AI-powered Fake Review Detection Dashboard")
-
 st.write("")
 
 # -------------------------------------------------
-# STATS CARDS
+# STATS
 # -------------------------------------------------
 c1, c2, c3 = st.columns(3)
 
@@ -168,7 +160,7 @@ with c1:
 
 with c2:
     st.markdown(
-        "<div class='card'><div class='stat'>5000</div><div class='label'>Reviews Trained</div></div>",
+        "<div class='card'><div class='stat'>5,000</div><div class='label'>Reviews Trained</div></div>",
         unsafe_allow_html=True
     )
 
@@ -225,7 +217,7 @@ with right:
     st.markdown("</div>", unsafe_allow_html=True)
 
 # -------------------------------------------------
-# WATERMARK TEXT
+# WATERMARK
 # -------------------------------------------------
 st.markdown(
     "<div class='footer'>Developed by Aditya Kumar Gupta </div>",
