@@ -35,22 +35,39 @@ st.markdown("""
     --card: var(--secondary-background-color);
 }
 
-/* Hide Streamlit header icons */
+/* Hide Streamlit toolbar icons */
 header {
     display: none;
 }
 
-/* Remove top spacing */
+/* Remove extra top space */
 .stApp {
     margin-top: -80px;
 }
 
-/* Cards */
+/* ---------------- CARD STYLE (IMPORTANT FIX) ---------------- */
 .card {
     background-color: var(--card);
     padding: 22px;
     border-radius: 18px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+
+    /* Visible border */
+    border: 1px solid rgba(0, 0, 0, 0.12);
+
+    /* Depth */
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.18),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* Dark mode enhancement */
+@media (prefers-color-scheme: dark) {
+    .card {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow:
+            0 10px 28px rgba(0, 0, 0, 0.65),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
 }
 
 /* Stats */
@@ -62,7 +79,7 @@ header {
 
 .label {
     font-size: 15px;
-    color: rgba(120,120,120,0.9);
+    color: rgba(120, 120, 120, 0.9);
 }
 
 /* Textarea */
